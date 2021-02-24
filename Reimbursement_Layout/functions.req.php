@@ -1,6 +1,6 @@
 <?php
 include "dbconnect.php";
-function userExists($conn, $username) {
+function userExists($conn,$username,) {
 		$sql = "SELECT * FROM users WHERE usersEmail = ?;";
 		$stmt = mysqli_stmt_init($conn);
 		
@@ -52,7 +52,7 @@ function loginUser ($conn, $username, $password) {
 	}
 	
 	$pwdHashed = $userExists["usersPass"];
-	// $typeHashed = $userExists["userType"];
+	$type = $userExists["userType"];
 	$checkPwd = password_verify($password, $pwdHashed);
 	if ($checkPwd === false){
 		header("location: login.html?error=wrongpassword");
@@ -63,19 +63,46 @@ function loginUser ($conn, $username, $password) {
 		$_SESSION["userid"] = $userExists["usersId"];
 		$_SESSION["username"] = $userExists["usersEmail"];
 		$_SESSION["usertype"] = $userExists["userType"];
-		header("Location: adminpanel.html");
-		exit();
+		/* header("Location: adminpanel.html");
+		exit(); */
 		
 		// ONLY ADMIN LOGIN FOR NOW
 		
-		/* if ($typeHashed == 0){
+		if ($type == 1){
 			header("Location:adminpanel.html");
 			exit();
-		}else if ($typeHashed == 1){
+		}else{
 			header("Location:userpanel.html");
 			exit();
-		} */
+		}
 		
 	}
 	
+}
+
+function createTicket($conn,$purpose,$office,$activityDate, $expense, $amount, $remarks) {
+		$sql = "INSERT INTO tickets (purpose, office, activityDate, expense, amount, remarks) VALUES (?,?,?,?,?,?);";
+		$stmt = mysqli_stmt_init($conn);
+		
+		if(!mysqli_stmt_prepare($stmt,$sql)) {
+			header("location: createTicket.html?error=stmtfailed");
+			exit();
+		}
+		
+		mysqli_stmt_bind_param($stmt,"ssssis", $purpose, $office, $activityDate,$expense,$amount,$remarks);
+		mysqli_stmt_execute($stmt);
+		mysqli_stmt_close($stmt);	
+		header("location: userpanel.html?error=none");
+		exit();
+	}
+
+function emptyInputTicket($purpose,$office,$activityDate, $expense, $amount, $remarks){
+	$result;
+if(empty($purpose) || empty($office) || empty($activityDate) || empty($expense) || empty($amount) || empty($remarks)){
+		$result = true;		
+	}
+	else {
+		$result = false;
+	}
+	return $result;
 }

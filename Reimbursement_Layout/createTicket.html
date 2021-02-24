@@ -304,7 +304,7 @@
 					<h2>Create Ticket + </h2>
 				</div>
 				<div class="card-content">
-					<form method="POST">
+					<form action="createTicket.req.php" method="POST">
 						<label for="purpose">Purpose:</label>
 						<input type="text" id="purpose" name="purpose">
 						
@@ -349,7 +349,7 @@
 										</textarea>
 									</td>
 									<td>
-										<input type="number" min="1" step="any" />
+										<input type="number" min="1" step="any" name="amount" />
 									</td>
 								</tr>
 							</tbody>
