@@ -1,6 +1,6 @@
 <?php
 include "dbconnect.php";
-function userExists($conn,$username,) {
+function userExists($conn,$username) {
 		$sql = "SELECT * FROM users WHERE usersEmail = ?;";
 		$stmt = mysqli_stmt_init($conn);
 		
