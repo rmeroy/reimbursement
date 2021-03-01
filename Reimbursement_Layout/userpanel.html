@@ -259,7 +259,11 @@
 								<div>	
 									<i class="fas fa-sign-out-alt"></i>
 								</div>
-								<span>Logout</span>
+								<?php
+									if(isset($_SESSION["userid"])){
+									echo "<span><a href='logout.php'>Logout</a></span>";
+									}
+								?>
 							</a>
 						</li>
 					</ul>

@@ -66,7 +66,7 @@ function loginUser ($conn, $username, $password) {
 		/* header("Location: adminpanel.html");
 		exit(); */
 		
-		// ONLY ADMIN LOGIN FOR NOW
+	
 		
 		if ($type == 1){
 			header("Location:adminpanel.html");
@@ -80,14 +80,20 @@ function loginUser ($conn, $username, $password) {
 	
 }
 
-function createTicket($conn,$purpose,$office,$activityDate, $expense, $amount, $remarks) {
+function createTicket($conn,$purpose,$office,$activityDate,$expense,$amount,$remarks) {
+		session_start();
 		$sql = "INSERT INTO tickets (purpose, office, activityDate, expense, amount, remarks) VALUES (?,?,?,?,?,?);";
 		$stmt = mysqli_stmt_init($conn);
-		
+				
 		if(!mysqli_stmt_prepare($stmt,$sql)) {
-			header("location: createTicket.html?error=stmtfailed");
+			header("location: userpanel.html?error=stmtfailed");
 			exit();
 		}
+			
+		/* $user_id = $_SESSION["userid"];
+		$show = mysqli_query($conn,"SELECT usersId FROM users WHERE `id`='".$_SESSION['userid'];."'");
+		$sql2 = "INSERT INTO tickets (userId) VALUES '$qry'";
+		$q = mysqli_query($conn,$sql2); */
 		
 		mysqli_stmt_bind_param($stmt,"ssssis", $purpose, $office, $activityDate,$expense,$amount,$remarks);
 		mysqli_stmt_execute($stmt);
@@ -98,7 +104,7 @@ function createTicket($conn,$purpose,$office,$activityDate, $expense, $amount, $
 
 function emptyInputTicket($purpose,$office,$activityDate, $expense, $amount, $remarks){
 	$result;
-if(empty($purpose) || empty($office) || empty($activityDate) || empty($expense) || empty($amount) || empty($remarks)){
+	if(empty($purpose) || empty($office) || empty($activityDate) || empty($expense) || empty($amount) || empty($remarks)){
 		$result = true;		
 	}
 	else {

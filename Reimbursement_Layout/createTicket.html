@@ -1,3 +1,7 @@
+<?
+	session_start();
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -342,10 +346,10 @@
 							<tbody>
 								<tr>
 									<td>
-										<input type="date" id="activitydate" name="activitydate">
+										<input type="date" name="activitydate" value="<?php echo date('Y-m-d'); ?>"/>
 									</td>
 									<td>
-										<textarea id="expense" name="expense">
+										<textarea id="expense" name="expense"/>
 										</textarea>
 									</td>
 									<td>
@@ -359,7 +363,7 @@
 						<textarea id="remarks" name="remarks" >
 							
 						</textarea><br>
-						<input type="submit" value="Submit">
+						<button type="submit" name="submit">Submit</button>
 					</form>
 				</div>
 			</div>
